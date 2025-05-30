@@ -53,7 +53,7 @@ const reaction = {
   // 상태값(데이터) 관리
   useState: (initialValue) => {
     // 최초 호출 되었을 경우에만 초기값을 지정하고 이후에 다시 호출되는 경우에는 이전 값을 유지한다.
-    // ??: null 벙합 연산자
+    // ??: null 병합 연산자
     // 왼쪽 피연산자가 null, undefined일 때 오른쪽 값 사용
     _stateValue = _stateValue ?? initialValue;
 
