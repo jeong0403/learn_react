@@ -27,57 +27,23 @@
 
       /* header 구성 */
       // <h1>Counter - 03 createElement() 함수 만들기</h1>
-      const h1 = Reaction.createElement(
-        "h1",
-        null,
-        "Counter - 03 createElement() 함수 만들기"
-      );
-
+      const h1 = Reaction.createElement( "h1", null, "Counter - 03 createElement() 함수 만들기" );
       // <p>파일 경로: <span id="filepath"></span></p>
-      const p = Reaction.createElement(
-        "p",
-        null,
-        "파일 경로: ",
-        Reaction.createElement("span", { id: "filepath" })
-      );
-
+      const p = Reaction.createElement( "p", null, "파일 경로: ", Reaction.createElement("span", { id: "filepath" }) );
       // <header></header>
       const Header = Reaction.createElement("header", null, h1, p);
 
       /* counter 구성 */
       // <button type="button" onclick="handleDown()">-</button>
-      const downBtn = Reaction.createElement(
-        "button",
-        { type: "button", onclick: "handleDown()" },
-        "-"
-      );
-
+      const downBtn = Reaction.createElement( "button", { type: "button", onclick: "handleDown()" }, "-" );
       // <button type="button" onclick="handleReset(event)">0</button>
-      const resetBtn = Reaction.createElement(
-        "button",
-        { type: "button", onclick: "handleReset(event)" },
-        "0"
-      );
-
+      const resetBtn = Reaction.createElement( "button", { type: "button", onclick: "handleReset(event)" }, "0" );
       // <button type="button" onclick="handleUp()">+</button>
-      const upBtn = Reaction.createElement(
-        "button",
-        { type: "button", onclick: "handleUp()" },
-        "+"
-      );
-
+      const upBtn = Reaction.createElement( "button", { type: "button", onclick: "handleUp()" }, "+" );
       // <span>0</span>
       const span = Reaction.createElement("span", null, 0);
-
       // <div id="counter"></div>
-      const Counter = Reaction.createElement(
-        "div",
-        { id: "counter" },
-        downBtn,
-        resetBtn,
-        upBtn,
-        span
-      );
+      const Counter = Reaction.createElement( "div", { id: "counter" }, downBtn, resetBtn, upBtn, span );
 
       /* app 구성 */
       // <div id="app"> </div>
