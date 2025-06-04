@@ -120,7 +120,7 @@
       function toggleDone(num){
       console.log(num, '완료/미완료');
       const newItemList = itemList.map(item => item.num === num ? { ...item, done: !item.done } : item);
-
+      // const newItemList = itemList.map( item =>{ return item.num === num ? { ...item, done:!item.done } : item })
       setItemList(newItemList);
     }
 
