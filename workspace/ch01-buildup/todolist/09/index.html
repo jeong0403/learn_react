@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List - 09 컴포넌트를 모듈로 분리</title>
+  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <div id = "root"></div>
+  <script type="module" src="./src/main.js">
+    /*
+        ┌───────── App ──────────┐  ← 최상위 컴포넌트
+        │           │            │
+      Header       Todo        Footer  ← 주요 섹션 컴포넌트들
+                    │
+                ┌───┴────┐             ← Todo 내부 구조
+          TodoInput   TodoList         ← 입력부와 목록부
+                         │
+                      TodoItem         ← 개별 할일 아이템
+    */
+  </script>
+</body>
+</html>
