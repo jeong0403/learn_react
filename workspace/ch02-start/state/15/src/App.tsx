@@ -86,9 +86,9 @@ function App() {
         newErrors.cellphone = { message: '휴대폰 형식에 맞지 않습니다.' };
         }
       
-      if(newErrors){  // 입력값 검증 실패
+      if(Object.keys(newErrors).length > 0){  // 입력값 검증 실패
         setErrors(newErrors);
-        // console.error(errors); // 입력값 검증에 실패했으면 에러메시지 출력한다.
+        console.error(newErrors); // 입력값 검증에 실패했으면 에러메시지 출력한다.
       }else{  // 입력값 검증 통과
         setErrors({});
         console.log('서버에 전송...', user);
