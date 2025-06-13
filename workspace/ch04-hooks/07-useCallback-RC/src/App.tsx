@@ -1,9 +1,11 @@
 import Shipping from "./Shipping";
-import Product from "./Product"; // 상대 경로 알려주는 . 없으면 설치한 패키지라고 인식함
-import { useCallback, useMemo, useState } from "react";
+import Product from "./Product";
+import { useState } from "react";
 import Price from "./Price";
 
 function App() {
+  "use no memo";
+
   const data = {
     _id: 2,
     price: 125000,
@@ -27,14 +29,13 @@ function App() {
   };
 
   // 결제 버튼 클릭 시 결제 확인 메시지 표시
-  // 의존성 배열의 값이 바뀌면(3000 -> 6000...) 최종 함수를 계속 만들어냄
-  const handlePayment = useCallback(() => {
+  const handlePayment = () => {
     alert(`배송비 ${ shippingFees } 원이 추가됩니다. 상품을 결제하시겠습니까?`);
-  }, [shippingFees]);
+  };
 
   return (
     <>
-      <h1>06 useCallback(함수 자체를 memoize), React.memo(컴포넌트를 memoize)</h1>
+      <h1>07 React Compiler를 사용한 메모이제이션</h1>
 
       <Product name={ data.name } price={ data.price } mainImage={ data.mainImage } content={ data.content } />
 

@@ -59,7 +59,7 @@ function Counter({ children='1' }: CounterPorps){
     // setup 함수에서 생성한 자원을 해제하는 코드 작성
     // 1. 컴포넌트가 언마운트될 때 호출
     // 2. setup 함수가 재실행 되기 전에 호출
-    return() => {
+    return() => { // 얘가 청소해주면서 앞서 만들었던 timer가 계속 누적 되어서 1-> 2.. 3... 이렇게 늘어나던 것들이 사라짐
       console.log('cleanup 함수 호출.');
       clearInterval(timer);
     }
@@ -82,7 +82,7 @@ function Counter({ children='1' }: CounterPorps){
   
   console.log('렌더링 중', document.querySelector('span')?.textContent);
 
-  useEffect(() => {
+  useEffect(() => { // 렌더링 후에만 나오는 useEffect
     console.log('렌더링 후', document.querySelector('span')?.textContent);
   })
 

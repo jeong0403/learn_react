@@ -1,5 +1,3 @@
-import React from "react";
-
 interface ShippingProps {
   fees: number;
   handlePayment: () => void;
@@ -22,6 +20,5 @@ function Shipping({ fees, handlePayment }: ShippingProps) {
     </>
   );
 }
-// 개발자가 React.memo라고 코드에 작성해서 메모하겠다는 의미 (수동으로 함)
-// 메모이제이션 기능이 있는 함수를 리턴한다
-export default React.memo(Shipping);
+
+export default Shipping;
