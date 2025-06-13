@@ -1,5 +1,5 @@
 import Button from "@components/Button";
-import { useReducer, useState } from "react";
+import { useReducer, useRef } from "react";
 
 interface CounterProps {
   children: string;
@@ -43,38 +43,46 @@ function Counter({ children='0' }: CounterProps){
   const initCount = Number(children);
 
   const [ count, countDispatch ] = useReducer(counterReducer, initCount);
-  const [step, setStep] = useState(1);
 
+  // 1. 값이 바뀌어도 리렌더링이 되지 않음
+  // useState 대신 useRef 사용함
+  const stepRef = useRef(initCount); //{current: initCount} 객체반환
+
+  // 2. DOM 객체에 대한 직접 참조를 사용할 때
+  // 제네릭으로 명확하게 지정해줘야 stepElem의 current값이 있으면 focus 시켜라
+  const stepElem = useRef<HTMLInputElement>(null);
 
   // 카운터 감소
   function handleDown() {
-    countDispatch({ type: 'DOWN', value: step });
+    countDispatch({ type: 'DOWN', value: stepRef.current });
   };
 
   // 카운터 증가
   function handleUp() {
-    countDispatch({ type: 'UP', value: step });
+    countDispatch({ type: 'UP', value: stepRef.current });
   };
 
   // 카운터 초기화
   function handleReset() {
     countDispatch({ type: 'RESET', value: initCount });
+    stepElem?.current?.focus();
   };
 
   // 증감값 변경 처리
   function handleStepChange(e: React.ChangeEvent<HTMLInputElement>) {
     const newStep = Number(e.target.value);
-    setStep(newStep);
+    stepRef.current = newStep; // 값이 바뀌더라도 리렌더링을 체크할 필요가 없기 때문에 current 속성을 가진 객체를 반환하는 형태로 작성하면 됨
   }
 
   return (
     <div id="counter">
       <label htmlFor="step">증감치</label>
       {/* TODO 비제어 컴포넌트로 만들어서 불필요한 리렌더링 방지 */}
-      <input 
+      <input
+        ref={ stepElem } // stepElem는 아래 input 요소를 참조한다.
         id="step" 
         type="number" 
-        value={ step } 
+        value={ stepRef.current } 
         onChange={ handleStepChange } 
       />
       <Button color="red" onClick={ handleDown }>-_-</Button>
