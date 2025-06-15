@@ -1,12 +1,12 @@
 import Button from "@components/Button";
 import { useEffect, useState } from "react";
 
-interface CounterPorps {
+interface CounterProps {
   children: string;
 }
 
 // Counter 컴포넌트
-function Counter({ children='1' }: CounterPorps){
+function Counter({ children='1' }: CounterProps){
   console.log('\tCounter 호출됨');
 
   const initCount = Number(children);
