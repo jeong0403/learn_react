@@ -1,7 +1,7 @@
 import Todo from "@pages/Todo";
 import type { TodoItem } from "@pages/TodoItem";
 import todoReducer from "@pages/todoReducer";
-import { useReducer } from "react";
+import { useReducer, useRef } from "react";
 
 function TodoContainer(){
   // 샘플 목록
@@ -17,11 +17,12 @@ function TodoContainer(){
 
 
   // TODO 2. useRef를 사용해서 nextId를 생성해서 할일 추가시 1씩 증가 (과제: TodoItem의 ID가 고유하도록 수정하기(삭제된 TodoItem과도 ID가 겹치면 안됨))
-
+  // useRef : 컴포넌트가 리렌더링 될 때도 값을 유지하고 싶을 때 사용한다. 값이 바뀌더라도 리렌더링 필요 없는 경우에 사용한다.
+  const nextId = useRef(initItemList.length + 1);
 
   // 할일 추가
   const addItem = (title: string) => {
-    const item: TodoItem = { _id: itemList[itemList.length-1]?._id + 1 || 1, title, done: false };
+    const item: TodoItem = { _id: nextId.current++ , title, done: false };
     todoDispatch({type: 'ADD', value: item})
   }
 

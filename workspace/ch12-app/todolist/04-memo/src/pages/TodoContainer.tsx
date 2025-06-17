@@ -1,7 +1,7 @@
 import Todo from "@pages/Todo";
 import type { TodoItem } from "@pages/TodoItem";
 import todoReducer from "@pages/todoReducer";
-import { useReducer, useRef } from "react";
+import { useCallback, useReducer, useRef } from "react";
 
 function TodoContainer(){
   "use no memo"
@@ -13,28 +13,33 @@ function TodoContainer(){
     { _id: 3, title: 'React 공부', done: false },
   ];
 
+  for(let i = 4; i < 10000; i++) {
+    initItemList.push({ _id: i, title: `샘플-${i}`, done: false });
+  }
+
   const nextId = useRef(initItemList.length + 1);
 
   // 상태가 수정되면 자동으로 화면이 리렌더링 된다.
   const [ itemList, todoDispatch ] = useReducer(todoReducer, initItemList);
 
   // 할일 추가
-  const addItem = (title: string) => {
+    const addItem = useCallback((title: string) => {
     const item: TodoItem = { _id: nextId.current++, title, done: false };
     todoDispatch({ type: 'ADD', value: item });
-  }
+  }, [todoDispatch]); // 함수는 생성할 당시에 값을 찾아야 함 -> 의존성 배열 넣어야 함
 
   // TODO 1. useCallback으로 콜백 함수 메모이제이션 (과제: 해당 부분 클릭했을 때만 상태 변화있도록-> 현재는 전체가 리렌더링 되는 이슈 있음)
-
+  // 이는 함수 객체를 메모이제이션한다.
+  
   // 완료/미완료 처리
-  const toggleDone = (_id: number) => {
+  const toggleDone = useCallback((_id: number) => {
     todoDispatch({ type: 'TOGGLE', value: { _id } });
-  }
+  }, []); // 외부를 참조 하고 있어서 의존성 배열 필요 없음
 
   // 할일 삭제
-  const deleteItem = (_id: number) => {
+  const deleteItem = useCallback((_id: number) => {
     todoDispatch({ type: 'DELETE', value: { _id } });
-  }
+  }, []);
 
   return (
     <Todo itemList={ itemList } addItem={ addItem } toggleDone={ toggleDone } deleteItem={ deleteItem } />
