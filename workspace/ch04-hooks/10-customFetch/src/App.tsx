@@ -1,27 +1,18 @@
-import useFetch from "@hooks/useFetch";
+import TodoInfo from "@pages/TodoInfo";
+import TodoList from "@pages/TodoList";
 
 function App() {
-  const { isLoading, error, data } = useFetch({ url: "/todolist?delay=1000" });
-  console.log("App랜더링", isLoading, error, data);
-  return (
+
+  const todoId = location.pathname.split('/').pop(); // 5
+
+
+  return(
     <>
-      <h1>10 customHook - useFatch, useAxios 커스텀 훅 사용</h1>
-      <h2>할일 목록</h2>
-
-      {/* 로딩중일 때 로딩중 메시지 표시 */}
-      {isLoading && <p>로딩중...</p>}
-
-      {/* 에러가 있을 경우 빨간색으로 에러 메시지 표시 */}
-      {error && <p style={{ color: "red" }}>{error.message}</p>}
-
-      {/* Todo 목록을 리스트로 렌더링 */}
-      <ul>
-        {data?.items.map((item) => (
-          <li key={item._id}>{item.title}</li>
-        ))}
-      </ul>
+    {/* todoId가 있으면 todoinfo를 보여주고 없으면 todolist 보여주기 */}
+    { todoId && <TodoInfo />}
+    { !todoId && <TodoList />}
     </>
-  );
+  )
 }
 
 export default App;
