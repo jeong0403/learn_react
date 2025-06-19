@@ -1,3 +1,4 @@
+import useAxiosInstance from "@hooks/useAxiosInstance";
 import type { TodoItem } from "@pages/TodoInfo";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useOutletContext } from "react-router";
@@ -7,6 +8,9 @@ interface OutletContextProps {
 }
 
 function TodoEdit() {
+
+  const axiosInstance = useAxiosInstance();
+
   // 훅은 탑레벨에서만 선언해야 함 -> 컴포넌트 바로 밑! (탑레벨이 코드 제일 위가 아님 return 바로 위에 써도 되기 때문)
   // 자바스크립트 코드 상에서 페이지 이동시키고 싶을 때 사용 = useNavigate
   const navigate = useNavigate();
@@ -23,15 +27,21 @@ function TodoEdit() {
   })
 
   // form이 검증을 완료하고 호출되는 함수
-  const updateTodo = (formData: TodoItem) => {
+  const updateTodo = async (formData: TodoItem) => {
     console.log('API 서버에 수정 요청', formData);
-    // TODO API 서버에 수정 요청 (나중에 할 일)
-    
-    alert('할 일이 수정 되었습니다.');
-    
-    // 상세 보기로 이동
-    // navigate(-1); // -1은 히스토리에서 뒤로가기 효과 window.history.go(-1)
-    navigate(`/todolist/${item._id}`); // 상대 경로로 하지 않으면 현재 주소 뒤에 수정되는 주소를 더 붙여버리므로 오류난 페이지로 감
+    try {
+      // TODO API 서버에 수정 요청
+      await axiosInstance.patch(`/todolist/${item._id}`, formData);
+
+      alert('할 일이 수정 되었습니다.');
+      
+      // 상세 보기로 이동
+      // navigate(-1); // -1은 히스토리에서 뒤로가기 효과 window.history.go(-1)
+      navigate(`/todolist/${item._id}`); // 상대 경로로 하지 않으면 현재 주소 뒤에 수정되는 주소를 더 붙여버리므로 오류난 페이지로 감
+    } catch (err) {
+      console.error(err);
+      alert('할 일 수정에 실패했습니다.')
+    }
   }
 
   return (

@@ -1,5 +1,6 @@
 import type { TodoItem } from "@pages/TodoInfo";
 import TodoListItem from "@pages/TodoListItem";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 
 interface TodoList {
@@ -24,7 +25,37 @@ const dummyData: TodoList = {
 
 function TodoList() {
 
-  const itemList = dummyData.items.map(item => <TodoListItem key={ item._id } item={ item } />);
+  const [ data, setData ] = useState<TodoList | null>(null);
+
+  // 할 일 목록을 API 서버에서 조회 (Todo 목록 가져 옴)
+  const fetchTodoList = () => {
+    console.log('API 서버에 목록 요청');
+    // TODO API 서버에 목록 요청
+
+
+    // 더미 데이터로 지정
+    setData(dummyData);
+  };
+
+  // 삭제 처리
+  const handleDelete = () => {
+    console.log('API 서버에 삭제 요청');
+    // TODO API 서버에 삭제 요청
+
+
+      alert('삭제가 완료되었습니다.');
+
+    // TODO API 서버에 목록 요청
+      fetchTodoList();
+
+  };
+
+  useEffect(() => {
+    fetchTodoList();
+  }, []); // 빈 배열을 전달해서 마운트시에만 실행
+
+  const itemList = data?.items.map(item =>
+    <TodoListItem key={ item._id } item={ item } handleDelete={ handleDelete } />);
   
   return (
     <div id="main">

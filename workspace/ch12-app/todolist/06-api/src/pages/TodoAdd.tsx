@@ -1,18 +1,30 @@
 import type { TodoItem } from "@pages/TodoInfo";
+import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 
 function TodoAdd() {
 
+  const axiosInstance = useAxiosInstance();
+  // const navigate = useNavigate();
+
+  // TODO 과제 : 리셋 안 되는 문제 해결하기
   const { register, handleSubmit, reset , setFocus ,formState: { errors } } = useForm<TodoItem>();
 
-  const addTodo = (formData: TodoItem) => {
+  const addTodo = async (formData: TodoItem) => {
     console.log('API 서버에 등록 요청', formData);
-    // TODO API 서버에 등록 ㅇ청
+    // TODO API 서버에 등록 요청
+    try{
+      await axiosInstance.post('/todolist', formData);
 
-    alert('할 일이 등록 되었습니다.');
-    reset();
-    setFocus('title');
+      alert('할일이 등록 되었습니다.');
+      reset();
+      setFocus('title');
+    }catch(err){
+      console.error(err);
+      alert('할일 등록에 실패했습니다.');
+    }
+    // navigate(`/list`);
   };
 
   return (
@@ -48,7 +60,7 @@ function TodoAdd() {
             ></textarea>
             <div className="input-error">{ errors.content?.message }</div>
           <br />
-          <button>추가</button>
+          <button type="submit">추가</button>
           <Link to="/todolist">취소</Link>
         </form>
       </div>
