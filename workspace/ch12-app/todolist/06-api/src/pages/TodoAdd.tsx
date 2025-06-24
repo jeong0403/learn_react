@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 
 function TodoAdd() {
+  // React Compiler의 기능을 사용하지 않겠다는 선언(reset()이 제대로 동작하지 않음)
+  'use no memo'
 
   const axiosInstance = useAxiosInstance();
   // const navigate = useNavigate();
