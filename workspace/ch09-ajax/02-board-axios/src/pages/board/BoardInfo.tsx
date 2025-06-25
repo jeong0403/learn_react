@@ -1,5 +1,6 @@
+import useAxiosInstance from "@/hooks/useAxiosInstance";
 import CommentList from "@/pages/board/CommentList";
-import type { BoardInfoType } from "@/types/BoardType";
+import type { BoardInfoResType, BoardInfoType } from "@/types/BoardType";
 import { useEffect, useState } from "react";
 
 function BoardInfo() {
@@ -13,6 +14,9 @@ function BoardInfo() {
   // 에러 상태
   const [ error, setError ] = useState<Error | null>(null);
 
+  // axios instance
+  const axios = useAxiosInstance();
+
   // API 서버에 1번 게시물의 상세정보를 fetch() 요청으로 보낸다.
   const requestInfo = async () => {
     try {
@@ -20,25 +24,11 @@ function BoardInfo() {
       setIsLoading(true);
 
       // fetch는 promise를 반환하므로 async와 await을 붙이면 동기함수처럼 편하게 사용할 수 있다.
-      const response = await fetch('https://fesp-api.koyeb.app/market/posts/1?delay=1000', {
-        // header -> name-vale쌍인 객체 형태
-        headers: {
-          'Client-Id': 'openmarket'
-        }
-      });
-      console.log('response', response);
-      const jsonData = await response.json();
-      console.log('jsonData', jsonData);
-      if(jsonData.ok) { // 응답이 성공일 경우
-        // 게시물 상세 정보를 출력
-        // item -> 서버로부터 전달 받은 데이터
-        setData(jsonData.item);
-        setError(null);
-      }else { // 응답이 실패일 경우
-        // 에러 메시지 출력
-        // try 블럭 안에서 에러 던지면 try 블럭 내에서 catch한다!
-        throw new Error(jsonData.message);
-      }
+      const response = await axios.get<BoardInfoResType>('/posts/1?delay=1000');
+
+      // 게시물 상세 정보 출력
+      setData(response.data.item);
+      setError(null);
     } catch (err) {
       setError(err as Error);
       // 에러메시지와 데이터 메시지 동시에 출력 되는 경우가 발생할 수 있으니 해당 데이터를 일단 null처리한다.
@@ -57,7 +47,7 @@ function BoardInfo() {
 
   return (
     <>
-      <h1>01 Fetch API</h1>
+      <h1>02 Axios 라이브러리</h1>
       { isLoading && <p>로딩중...</p> }
       { error && <p>{ error.message }</p> }
       { data &&
