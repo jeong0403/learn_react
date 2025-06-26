@@ -5,18 +5,18 @@ import { useEffect, useState } from "react";
 
 function CommentList() {
 
-  // axios instance
-  const axios = useAxiosInstance();
-
   // 서버에 데이터를 저장할 상태
   // data에 서버로부터 응답 받은 데이터 넣음
   const [data, setData] = useState<ReplyType[] | null>(null);
-
+  
   // 로딩 상태
   const [ isLoading, setIsLoading ] = useState(false);
-
+  
   // 에러 상태
   const [ error, setError ] = useState<Error | null>(null);
+  
+  // axios instance
+  const axios = useAxiosInstance();
 
   // API 서버에 1번 게시물의 댓글 목록을 fetch() 요청으로 보낸다.
   const requestCommentList = async () => {
@@ -34,7 +34,7 @@ function CommentList() {
           // fetch는 promise를 반환하므로 async와 await을 붙이면 동기함수처럼 편하게 사용할 수 있다.
           const response = await axios.get<ReplyListResType>('/posts/1/replies', {
             params: {
-              delay: 1000,
+              // delay: 1000,
               // page: 3,
               // limit: 10,
             }            
@@ -47,7 +47,6 @@ function CommentList() {
           setError(err as Error);
           // 에러메시지와 데이터 메시지 동시에 출력 되는 경우가 발생할 수 있으니 해당 데이터를 일단 null처리한다.
           setData(null);
-          console.error(err);
         } finally {
           // 성공, 실패와 상관 없이 로딩 상태를 false로 지정
           setIsLoading(false);

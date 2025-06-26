@@ -24,17 +24,17 @@ function BoardInfo() {
       setIsLoading(true);
 
       // fetch는 promise를 반환하므로 async와 await을 붙이면 동기함수처럼 편하게 사용할 수 있다.
-      const response = await axios.get<BoardInfoResType>('/posts/1?delay=1000');
+      const response = await axios.get<BoardInfoResType>('/posts/1');
 
       // 게시물 상세 정보 출력
-      setData(response.data.item);
-      setError(null);
+      if(response.data.ok === true) {
+        setData(response.data.item);
+        setError(null);
+      }
     } catch (err) {
       setError(err as Error);
       // 에러메시지와 데이터 메시지 동시에 출력 되는 경우가 발생할 수 있으니 해당 데이터를 일단 null처리한다.
       setData(null);
-      // alert('네트워크 문제로 인해 게시물 상세 조회에 실패했습니다.\n잠시 후 다시 요청하시기 바랍니다.')
-      console.error(err);
     } finally {
       // 성공, 실패와 상관 없이 로딩 상태를 false로 지정
       setIsLoading(false);
