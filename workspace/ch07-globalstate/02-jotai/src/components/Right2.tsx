@@ -5,6 +5,7 @@ function Right2() {
   useEffect(()=>{
     console.log('### Right2 렌더링.');
   });
+
   return (
     <div>
       <h2>Right2</h2>
