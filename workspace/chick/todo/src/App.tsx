@@ -1,6 +1,7 @@
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import Todo from "./pages/todo";
+import Todo from "./pages/Todo";
+
 
 // App - 부모, Header - 자식
 function App(){
