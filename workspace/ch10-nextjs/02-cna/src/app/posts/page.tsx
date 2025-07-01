@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: '게시물 목록 조회',
@@ -6,7 +7,23 @@ export const metadata: Metadata = {
 }
 
 export default function ListPage() {
+  const dummyList = [];
+  for(let i=0; i<1000; i++){
+    dummyList.push({
+      id: i,
+      title: i + '번 게시물'
+    });
+  }
+
+  // prefetch={true}면 DOM 안에 있는 것 미리 가져오겠다는 의미
+  const posts = dummyList.map(post => <li key={ post.id }><Link prefetch={true} href={`/posts/${post.id}`}>{ post.title }</Link></li>);
+
   return (
+    <>
     <h1>목록 조회</h1>
+    <ul>
+      { posts }
+    </ul>
+    </>
   );
 }
