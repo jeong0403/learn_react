@@ -1,11 +1,36 @@
 import Link from "next/link";
-import CommentList from "@/app/info/1/CommentList";
+import CommentList from "@/app/[boardType]/[_id]/CommentList";
+import { Metadata } from "next";
 
-export default async function InfoPage() {
+interface InfoPageProps {
+  params: Promise<{
+    boardType: string;
+    _id: string;
+  }>;
+}
+
+export async function generateMetadata({ params }: InfoPageProps): Promise<Metadata>{
+  const { boardType, _id } = await params;
+  return {
+    title: `${boardType} - React란?`,
+    description: `${boardType} - React는 UI를 구성하기 위한 JavaScript 라이브러리로... `,
+    openGraph: {
+      title: `${boardType} - React란?`,
+      description: `${boardType} - React는 UI를 구성하기 위한 JavaScript 라이브러리로... `,
+      url: `/${boardType}/${_id}`,
+      images: {
+        url: '/images/front-end.png'
+      }
+    }
+  };
+}
+
+export default async function InfoPage({ params }: InfoPageProps) {
+  const { boardType, _id } = await params;
   return (
     <main className="flex-1 container mx-auto mt-4 px-4">
       <section className="mb-8 p-4">
-        <form action="/info">
+        <form action={`/${boardType}`}>
           <div className="font-semibold text-xl">제목 : React란?</div>
           <div className="text-right text-gray-400">
             <div>작성자 : 액션핑</div>
@@ -22,10 +47,10 @@ export default async function InfoPage() {
             <hr />
           </div>
           <div className="flex justify-end my-4">
-            <Link href="/info" className="bg-orange-500 py-1 px-4 text-base text-white font-semibold ml-2 hover:bg-amber-400 rounded">
+            <Link href={`/${boardType}`} className="bg-orange-500 py-1 px-4 text-base text-white font-semibold ml-2 hover:bg-amber-400 rounded">
               목록
             </Link>
-            <Link href="/info/1/edit" className="bg-gray-900 py-1 px-4 text-base text-white font-semibold ml-2 hover:bg-amber-400 rounded">
+            <Link href={`/${boardType}/${_id}/edit`} className="bg-gray-900 py-1 px-4 text-base text-white font-semibold ml-2 hover:bg-amber-400 rounded">
               수정
             </Link>
             <button type="submit" className="bg-red-500 py-1 px-4 text-base text-white font-semibold ml-2 hover:bg-amber-400 rounded">
@@ -39,3 +64,4 @@ export default async function InfoPage() {
     </main>
   );
 }
+

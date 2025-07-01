@@ -1,11 +1,48 @@
-import ListItem from "@/app/info/ListItem";
+import ListItem from "@/app/[boardType]/ListItem";
+import { Metadata } from "next";
 import Link from "next/link";
 
-export default async function ListPage() {
+export interface ListPageProps {
+  params: Promise<{
+    boardType: string;
+  }>;
+}
+
+export async function generateMetadata({ params }: ListPageProps): Promise<Metadata>{
+  const { boardType } = await params;
+  return {
+    title: `${boardType} - Lion Board`,
+    description: `${boardType} 게시판입니다.`,
+    openGraph: {
+      title: `${boardType} - Lion Board`,
+      description: `${boardType} 게시판입니다.`,
+      url: `/${boardType}`,
+      images: {
+        url: '/images/front-end.png'
+      }
+    }
+  };
+}
+
+export default async function ListPage({ params }: ListPageProps) {
+  const { boardType } = await params;
+  let boardTitle = '';
+  switch (boardType) {
+    case 'info':
+      boardTitle = '정보 공유';
+      break;
+    case 'free':
+      boardTitle = '자유 게시판';
+      break;
+    case 'qna':
+      boardTitle = '질문 게시판';
+      break;
+  }
+
   return (
     <main className="flex-1 min-w-80 p-10">
           <div className="text-center py-4">
-            <h2 className="pb-4 text-2xl font-bold text-gray-700 dark:text-gray-200">정보 공유</h2>
+            <h2 className="pb-4 text-2xl font-bold text-gray-700 dark:text-gray-200">{ boardTitle }</h2>
           </div>
           <div className="flex justify-end mr-4">
             
@@ -18,7 +55,7 @@ export default async function ListPage() {
               <button type="submit" className="bg-orange-500 py-1 px-4 text-base text-white font-semibold ml-2 hover:bg-amber-400 rounded">검색</button>
             </form>
 
-            <Link href="/info/new" className="bg-orange-500 py-1 px-4 text-base text-white font-semibold ml-2 hover:bg-amber-400 rounded">글작성</Link>
+            <Link href={`/${boardType}/new`} className="bg-orange-500 py-1 px-4 text-base text-white font-semibold ml-2 hover:bg-amber-400 rounded">글작성</Link>
           </div>
           <section className="pt-10">
             <table className="border-collapse w-full table-fixed">
@@ -42,8 +79,8 @@ export default async function ListPage() {
               </thead>
               <tbody>
                 
-                <ListItem />
-                <ListItem />
+                <ListItem boardType={ boardType }/>
+                <ListItem boardType={ boardType }/>
 
               </tbody>
             </table>
@@ -52,10 +89,10 @@ export default async function ListPage() {
             <div>
               <ul className="flex justify-center gap-3 m-4">
                 <li className="font-bold text-blue-700">
-                  <Link href="/info?page=1">1</Link>
+                  <Link href={`/${boardType}?page=1`}>1</Link>
                 </li>
                 <li>
-                  <Link href="/info?page=2">2</Link>
+                  <Link href={`/${boardType}?page=2`}>2</Link>
                 </li>
               </ul>
             </div>
