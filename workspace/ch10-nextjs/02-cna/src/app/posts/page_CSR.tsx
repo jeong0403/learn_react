@@ -1,11 +1,11 @@
 'use client';
-
+// react original 버전으로 목록 출력해보기
+// 클라이언트사이드 렌더링
 import { fetchPosts } from "@/data/functions/boardFetch";
 import { Post } from "@/types/board";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-// use client에서는 metadata를 export할 수 없음 따라서 주석처리!
 // import { Metadata } from "next";
 // export const metadata: Metadata = {
 //   title: '게시물 목록 조회',

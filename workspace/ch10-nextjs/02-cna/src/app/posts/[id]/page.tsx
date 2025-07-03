@@ -34,10 +34,15 @@ export function generateStaticParams() {
 // Next.js 15 부터 params는 비동기 처리 필요 async await 붙여야함. 그리고 타입을 명확하게 해야 한다.
 export default async function InfoPage({ params } : { params: Promise<{ id: string }> }) {
   const pageParams = await params;
-  console.log('pageParams', pageParams);
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  
+  const res = await fetch(`http://localhost:3000/api/posts/${pageParams.id}`);
+  const data = await res.json();
+
   return (
-    // JSX 문법
+    <>
     <h1>상세 조회 - { pageParams.id }번 게시물</h1>
+    <span>제목: { data.item.title }</span>
+    <p>내용: { data.item.content }</p>
+    </>
   );
 }
